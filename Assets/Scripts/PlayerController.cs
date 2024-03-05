@@ -8,9 +8,9 @@ public class PlayerController : MonoBehaviour
     public float playerRotate;
     public float playerSpeed;
     public float jumpSpeed;
+    public bool playerMove = false;
     private Rigidbody rb;
     private Vector3 displacement;
-    public bool playerMove = false;
     public bool checkGround = true;
     public Transform chkGround;
 
@@ -26,13 +26,13 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float mh = Input.GetAxis("Horizontal");
-        PlayerMove(mh);
-        PlayerJump();
     }
 
     void Update()
     {
+        float mh = Input.GetAxis("Horizontal");
+        PlayerMove(mh);
+        PlayerJump();
         
     }
 
@@ -72,8 +72,9 @@ public class PlayerController : MonoBehaviour
         Vector3 dwn = transform.TransformDirection(Vector3.down);
         RaycastHit hit;
 
-        if (Input.GetButton("Jump") && checkGround)
+        if (Input.GetKeyDown(KeyCode.Space) && checkGround)
         {
+            Debug.Log("salto");
             rb.velocity = new Vector3(0f, jumpSpeed, 0f);
             checkGround = false;
         }
