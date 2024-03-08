@@ -19,15 +19,12 @@ public class PlayerAnim : MonoBehaviour
         
     }
 
-    void FixedUpdate()
-    {
-        RunAnim();
-        JumpAnim();
-    }
+
 
     void Update()
     {
-        
+        RunAnim();
+        JumpAnim();
     }
 
     void RunAnim()
@@ -44,13 +41,13 @@ public class PlayerAnim : MonoBehaviour
 
     void JumpAnim()
     {
-        if (!player.checkGround == false)
+        if (!player.isGrounded) // Verifica si el jugador no está en el suelo
         {
-            playerAnim.SetBool("Jump", true);
+            playerAnim.SetBool("Jump", true); // Activa la animación de salto
         }
         else
         {
-            playerAnim.SetBool("Jump",false );
+            playerAnim.SetBool("Jump", false); // Desactiva la animación de salto
         }
     }
 }

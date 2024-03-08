@@ -7,12 +7,21 @@ public class PlayerController : MonoBehaviour
 
     public float playerRotate;
     public float playerSpeed;
-    public float jumpSpeed;
+    //public float jumpSpeed;
     public bool playerMove = false;
     private Rigidbody rb;
     private Vector3 displacement;
-    public bool checkGround = true;
-    public Transform chkGround;
+    //public bool checkGround = true;
+    //public Transform chkGround;
+
+
+    public float jumpForce = 5f;
+    public LayerMask groundLayer;
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.1f;
+    public bool isGrounded;
+    private bool canJump = true; // Variable para controlar si el personaje puede saltar
+
 
     void Awake()
     {
@@ -33,7 +42,11 @@ public class PlayerController : MonoBehaviour
         float mh = Input.GetAxis("Horizontal");
         PlayerMove(mh);
         PlayerJump();
+
         
+
+
+
     }
 
     void PlayerMove(float mh)
@@ -66,25 +79,23 @@ public class PlayerController : MonoBehaviour
         Quaternion newRotation = Quaternion.Lerp(rb.rotation, targetRotation, interpolation);
         rb.MoveRotation(newRotation);
     }
-
+    
     void PlayerJump()
     {
-        Vector3 dwn = transform.TransformDirection(Vector3.down);
-        RaycastHit hit;
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
 
-        if (Input.GetKeyDown(KeyCode.Space) && checkGround)
+        if (isGrounded)
         {
-            Debug.Log("salto");
-            rb.velocity = new Vector3(0f, jumpSpeed, 0f);
-            checkGround = false;
+            canJump = true; // Si está en el suelo, permitir saltar
         }
-        if (Physics.Raycast(chkGround.position, dwn, out hit, 0.2f) && hit.collider.CompareTag("Ground")) 
+
+        if (canJump && Input.GetKeyDown(KeyCode.Space))
         {
-            checkGround = true;
-        }
-        else
-        {
-            checkGround = false ;
+            GetComponent<Rigidbody>().velocity = Vector3.up * jumpForce;
+            canJump = false; // Desactivar la capacidad de saltar hasta que esté en el suelo nuevamente
         }
     }
+    
+
+
 }
