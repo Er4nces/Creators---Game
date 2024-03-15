@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     //public bool checkGround = true;
     //public Transform chkGround;
 
+    public Transform AtkPoint;
+    public float AtkRange;
+    public LayerMask EnemyLayers;
+
 
     public float jumpForce = 5f;
     public LayerMask groundLayer;
@@ -42,9 +46,6 @@ public class PlayerController : MonoBehaviour
         float mh = Input.GetAxis("Horizontal");
         PlayerMove(mh);
         PlayerJump();
-
-        
-
 
 
     }
@@ -96,6 +97,17 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    public void PlayerAttack()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(AtkPoint.position, AtkRange, EnemyLayers);
+        foreach(Collider hitenemy in hitColliders)
+        {
+            
 
+                print("Atacando" + hitenemy.name);
+                Debug.Log("Atacando " + hitenemy.name);
+            
+        }
+    }
 
 }

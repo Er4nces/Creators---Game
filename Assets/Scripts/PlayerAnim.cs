@@ -25,6 +25,7 @@ public class PlayerAnim : MonoBehaviour
     {
         RunAnim();
         JumpAnim();
+        AttackAnim();
     }
 
     void RunAnim()
@@ -48,6 +49,15 @@ public class PlayerAnim : MonoBehaviour
         else
         {
             playerAnim.SetBool("Jump", false); // Desactiva la animación de salto
+        }
+    }
+
+    void AttackAnim()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            playerAnim.SetTrigger("Atk");
+            player.PlayerAttack();
         }
     }
 }
